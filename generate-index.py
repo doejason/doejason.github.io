@@ -372,19 +372,18 @@ for md in os.listdir(POSTS_DIR):
     # 원본파일명에서 'photo_YYYYMMDD_Preview_page_N_of_' 앞부분 제거
     origin_name = re.sub(r'^photo_\d{8}_Preview_page_\d+_of_', '', md)
 
-    # 요약(txt) 파일 분리 처리
     if os.path.exists(txt_path):
-        with open(txt_path, encoding='utf-8') as f:
-            summary = f.read().strip()
-        lines = summary.split('\n', 1)
-        if len(lines) == 2:
-            keyword_line, body_line = lines[0], lines[1]
-        else:
-            keyword_line, body_line = lines[0], ""
-        keyword_html = f'<div class="hashtag-line">{color_hashtags(keyword_line.strip())}</div>'
-        body_html = f'<div class="body-line">{body_line.strip()}</div>'
-        # 요약은 두 줄로(해시태그/내용)
-        summary_html = f'<span class="summary-cell" data-summary="{keyword_html}<br>{body_html}">{keyword_html}{body_html}</span>'
+      with open(txt_path, encoding='utf-8') as f:
+          summary = f.read().strip()
+      lines = summary.split('\n', 1)
+      if len(lines) == 2:
+          keyword_line, body_line = lines[0], lines[1]
+      else:
+          keyword_line, body_line = lines[0], ""
+      keyword_html = f'<div class="hashtag-line">{color_hashtags(keyword_line.strip())}</div>'
+      body_html = f'<div class="body-line">{body_line.strip()}</div>'
+      # 표에는 키워드만, 툴팁에는 키워드+본문(두 줄)
+      summary_html = f'<span class="summary-cell" data-summary="{keyword_html}<br>{body_html}">{keyword_html}</span>'
     else:
         summary_html = "(요약 없음)"
 
