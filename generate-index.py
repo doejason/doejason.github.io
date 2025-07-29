@@ -16,7 +16,6 @@ for md in md_files:
         with open(txt_path, encoding='utf-8') as f:
             summary = f.read().strip().replace('\n', ' ')
         short_summary = summary[:40] + ('...' if len(summary) > 40 else '')
-        # data-summary 속성에 전체 요약
         summary_html = f'<span class="summary-cell" data-summary="{summary}">{short_summary}</span>'
     else:
         summary_html = "(요약 없음)"
@@ -30,21 +29,21 @@ html = f"""<!DOCTYPE html>
 <meta charset="utf-8">
 <title>Markdown List</title>
 <style>
-/* 툴팁 기본 스타일 */
 .tooltip-box {{
   display: none;
   position: absolute;
   z-index: 9999;
   background: #fff;
   border: 1px solid #aaa;
-  padding: 12px 16px;
-  border-radius: 8px;
+  padding: 14px 18px;
+  border-radius: 9px;
   color: #222;
   font-size: 15px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  max-width: 400px;
-  min-width: 100px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  max-width: 420px;
+  min-width: 120px;
   word-break: break-all;
+  user-select: text;  /* 드래그 가능 */
 }}
 .summary-cell {{
   cursor: pointer;
@@ -71,17 +70,42 @@ html = f"""<!DOCTYPE html>
 
 <script>
 const tooltip = document.getElementById('tooltip');
+let tooltipTimeout = null;
+
+// 마우스 오버한 summary-cell과 연동
 document.querySelectorAll('.summary-cell').forEach(cell => {{
   cell.addEventListener('mouseenter', function(e) {{
     tooltip.textContent = cell.getAttribute('data-summary');
     tooltip.style.display = 'block';
     const rect = cell.getBoundingClientRect();
     tooltip.style.left = (rect.left + window.scrollX) + 'px';
-    tooltip.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+    tooltip.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+    tooltip.setAttribute('data-active', '1');
   }});
   cell.addEventListener('mouseleave', function(e) {{
-    tooltip.style.display = 'none';
+    tooltipTimeout = setTimeout(() => {{
+      // 툴팁 위에 없으면 숨김
+      if (!tooltip.matches(':hover')) {{
+        tooltip.style.display = 'none';
+        tooltip.removeAttribute('data-active');
+      }}
+    }}, 100);
   }});
+}});
+
+// 툴팁 박스에 마우스 올라가면 계속 보이기, 드래그/복사 완전 가능!
+tooltip.addEventListener('mouseenter', function(e) {{
+  if (tooltipTimeout) {{
+    clearTimeout(tooltipTimeout);
+    tooltipTimeout = null;
+  }}
+  tooltip.setAttribute('data-active', '1');
+}});
+tooltip.addEventListener('mouseleave', function(e) {{
+  tooltipTimeout = setTimeout(() => {{
+    tooltip.style.display = 'none';
+    tooltip.removeAttribute('data-active');
+  }}, 100);
 }});
 </script>
 </body>
