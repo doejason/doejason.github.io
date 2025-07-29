@@ -298,35 +298,36 @@ td.origin a {{
 <div id="tooltip" class="tooltip-box"></div>
 <script>
 const tooltip = document.getElementById('tooltip');
-let isTooltipVisible = false;
-let tooltipTimer = null;
+let currentTarget = null;
 
 document.querySelectorAll('.summary-cell').forEach(cell => {{
-  cell.addEventListener('mouseenter', function(e) {{
-    isTooltipVisible = true;
+  cell.addEventListener('mouseover', function(e) {{
+    currentTarget = cell;
     tooltip.textContent = cell.getAttribute('data-summary');
     tooltip.style.display = 'block';
     const rect = cell.getBoundingClientRect();
     tooltip.style.left = (rect.left + window.scrollX) + 'px';
     tooltip.style.top = (rect.bottom + window.scrollY + 8) + 'px';
   }});
-  cell.addEventListener('mouseleave', function(e) {{
-    setTimeout(() => {{
-      if (!tooltip.matches(':hover')) {{
-        tooltip.style.display = 'none';
-        isTooltipVisible = false;
-      }}
-    }}, 150);
-  }});
 }});
 
-tooltip.addEventListener('mouseenter', function() {{
-  isTooltipVisible = true;
-  tooltip.style.display = 'block';
+tooltip.addEventListener('mouseover', function() {{
+  // do nothing
 }});
-tooltip.addEventListener('mouseleave', function() {{
-  tooltip.style.display = 'none';
-  isTooltipVisible = false;
+
+document.addEventListener('mousemove', function(e) {{
+  let overSummary = false;
+  let overTooltip = false;
+  let el = e.target;
+  while (el) {{
+    if (el.classList && el.classList.contains('summary-cell')) overSummary = true;
+    if (el.id === 'tooltip') overTooltip = true;
+    el = el.parentElement;
+  }}
+  if (!(overSummary || overTooltip)) {{
+    tooltip.style.display = 'none';
+    currentTarget = null;
+  }}
 }});
 </script>
 </body>
