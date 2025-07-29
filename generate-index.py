@@ -7,25 +7,40 @@ md_files = sorted([f for f in os.listdir(POSTS_DIR) if f.endswith('.md')])
 
 rows = []
 for md in md_files:
-    path = os.path.join(POSTS_DIR, md)
-    with open(path, encoding='utf-8') as f:
-        # 줄단위로 읽어서 코드블록 시작문자 제거
-        lines = f.readlines()
-        # 코드블록 시작("```markdown", "```") 있는 줄 모두 제외
-        pure_lines = [line.strip() for line in lines if not (line.strip().startswith('```'))]
-        # 남은 줄 합치기(개행→공백)
-        content = ' '.join(pure_lines).strip()
-        # 앞 20글자만 title로
-        title = content[:20]
-        rows.append(f'<li><a href="{path}">{title}...</a></li>')
+    # 파일 경로
+    md_path = os.path.join(POSTS_DIR, md)
+    txt_name = os.path.splitext(md)[0] + '.txt'
+    txt_path = os.path.join(POSTS_DIR, txt_name)
 
+    # 요약(txt) 내용 읽기
+    if os.path.exists(txt_path):
+        with open(txt_path, encoding='utf-8') as f:
+            summary = f.read().strip().replace('\n', ' ')
+            summary = summary[:80] + ('...' if len(summary) > 80 else '')
+    else:
+        summary = "(요약 없음)"
+
+    # 원본(markdown) 링크
+    md_link = f'<a href="{md_path}">{md}</a>'
+
+    rows.append(f"<tr><td>{summary}</td><td>{md_link}</td></tr>")
+
+# HTML 테이블 구조로 생성
 html = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><title>Markdown List</title></head>
 <body>
 <h1>Markdown Files</h1>
-<ul>
+<table border="1" cellspacing="0" cellpadding="4">
+<thead>
+<tr>
+    <th>요약</th>
+    <th>원본(markdown)</th>
+</tr>
+</thead>
+<tbody>
 {''.join(rows)}
-</ul>
+</tbody>
+</table>
 </body></html>
 """
 
