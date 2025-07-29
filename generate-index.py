@@ -171,8 +171,7 @@ POSTS_DIR = 'posts'
 INDEX_FILE = 'index.html'
 
 def color_hashtags(text):
-    # #키워드만 파란색 span으로 감싸기
-    return re.sub(r'(#[\w가-힣]+)', r'<span class="hashtag">\\1</span>', text)
+    return re.sub(r'(#[\w가-힣]+)', r'<span class="hashtag">\1</span>', text)
 
 data = []
 for md in os.listdir(POSTS_DIR):
