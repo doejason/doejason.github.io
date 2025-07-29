@@ -5,7 +5,6 @@ POSTS_DIR = 'posts'
 INDEX_FILE = 'index.html'
 
 def color_hashtags(text):
-    # #키워드만 파란색
     return re.sub(r'(#[\w가-힣]+)', r'<span class="hashtag">\1</span>', text)
 
 data = []
@@ -35,12 +34,12 @@ for md in os.listdir(POSTS_DIR):
             summary = f.read().strip()
         lines = summary.split('\n', 1)
         if len(lines) == 2:
-            keyword_line, _ = lines[0], lines[1]
+            keyword_line, body_line = lines[0], lines[1]
         else:
-            keyword_line = lines[0]
+            keyword_line, body_line = lines[0], ""
         keyword_html = f'<div class="hashtag-line">{color_hashtags(keyword_line.strip())}</div>'
-        # 표에는 키워드 한 줄만!
-        summary_html = f'<span class="summary-cell">{keyword_html}</span>'
+        body_html = f'<div class="body-line">{body_line.strip()}</div>' if body_line.strip() else ""
+        summary_html = f'<span class="summary-cell">{keyword_html}{body_html}</span>'
     else:
         summary_html = "(요약 없음)"
 
@@ -71,7 +70,12 @@ html = f"""<!DOCTYPE html>
   font-weight: bold;
 }}
 .hashtag-line {{
+  margin-bottom: 4px;
+}}
+.body-line {{
+  color: #222;
   margin-bottom: 2px;
+  font-size: 15px;
 }}
 .table-fixed {{
   table-layout: fixed;
@@ -81,6 +85,7 @@ th.summary, td.summary {{
   width: 60%;
   min-width: 250px;
   max-width: 700px;
+  vertical-align: top;
 }}
 th.origin, td.origin {{
   width: 16%;
@@ -101,6 +106,11 @@ td.origin a {{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}}
+.summary-cell {{
+  display: block;
+  white-space: normal;
+  line-height: 1.6;
 }}
 </style>
 </head>
