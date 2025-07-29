@@ -16,10 +16,12 @@ for md in md_files:
     date_match = re.search(r'photo_(\d{8})', md)
     if date_match:
         raw_date = date_match.group(1)
-        # YYYYMMDD → YYYY-MM-DD
         date_str = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
     else:
         date_str = "(날짜없음)"
+
+    # 원본파일명에서 'photo_YYYYMMDD_Preview_page_N_of_' 앞부분 제거
+    origin_name = re.sub(r'^photo_\d{8}_Preview_page_\d+_of_', '', md)
 
     # 요약(txt) 내용 읽기
     if os.path.exists(txt_path):
@@ -30,7 +32,9 @@ for md in md_files:
     else:
         summary_html = "(요약 없음)"
 
-    md_link = f'<a href="{md_path}" title="{md}">{md}</a>'
+    # 원본 컬럼 링크 텍스트는 origin_name만 표시 (전체 파일명은 title에)
+    md_link = f'<a href="{md_path}" title="{md}">{origin_name}</a>'
+
     rows.append(
         f"<tr>"
         f"<td class='summary'>{summary_html}</td>"
