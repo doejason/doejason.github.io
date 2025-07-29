@@ -1,0 +1,37 @@
+name: Build index.html for Markdown Files
+
+on:
+  push:
+    paths:
+      - "posts/*.md"
+      - "generate-index.py"
+      - ".github/workflows/build-index.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write # ← 반드시 필요!
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Generate index.html
+        run: python generate-index.py
+
+      - name: Commit and push index.html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add index.html
+          git commit -m "Auto-generate index.html" || echo "No changes to commit"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+          git push origin HEAD:${{ github.ref_name }}
