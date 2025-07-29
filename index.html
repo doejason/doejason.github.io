@@ -74,39 +74,35 @@ td.origin a {
 <div id="tooltip" class="tooltip-box"></div>
 <script>
 const tooltip = document.getElementById('tooltip');
-let tooltipTimeout = null;
+let isTooltipVisible = false;
+let tooltipTimer = null;
 
 document.querySelectorAll('.summary-cell').forEach(cell => {
   cell.addEventListener('mouseenter', function(e) {
+    isTooltipVisible = true;
     tooltip.textContent = cell.getAttribute('data-summary');
     tooltip.style.display = 'block';
     const rect = cell.getBoundingClientRect();
     tooltip.style.left = (rect.left + window.scrollX) + 'px';
     tooltip.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-    tooltip.setAttribute('data-active', '1');
   });
   cell.addEventListener('mouseleave', function(e) {
-    tooltipTimeout = setTimeout(() => {
+    setTimeout(() => {
       if (!tooltip.matches(':hover')) {
         tooltip.style.display = 'none';
-        tooltip.removeAttribute('data-active');
+        isTooltipVisible = false;
       }
-    }, 100);
+    }, 150);
   });
 });
 
-tooltip.addEventListener('mouseenter', function(e) {
-  if (tooltipTimeout) {
-    clearTimeout(tooltipTimeout);
-    tooltipTimeout = null;
-  }
-  tooltip.setAttribute('data-active', '1');
+tooltip.addEventListener('mouseenter', function() {
+  isTooltipVisible = true;
+  tooltip.style.display = 'block';
 });
-tooltip.addEventListener('mouseleave', function(e) {
-  tooltipTimeout = setTimeout(() => {
-    tooltip.style.display = 'none';
-    tooltip.removeAttribute('data-active');
-  }, 100);
+tooltip.addEventListener('mouseleave', function() {
+  tooltip.style.display = 'none';
+  isTooltipVisible = false;
 });
 </script>
 </body>
