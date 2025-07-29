@@ -1,4 +1,5 @@
 import os
+import re
 
 POSTS_DIR = 'posts'
 INDEX_FILE = 'index.html'
@@ -11,6 +12,15 @@ for md in md_files:
     txt_name = os.path.splitext(md)[0] + '.txt'
     txt_path = os.path.join(POSTS_DIR, txt_name)
 
+    # 날짜 추출 (photo_YYYYMMDD_...)
+    date_match = re.search(r'photo_(\d{8})', md)
+    if date_match:
+        raw_date = date_match.group(1)
+        # YYYYMMDD → YYYY-MM-DD
+        date_str = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
+    else:
+        date_str = "(날짜없음)"
+
     # 요약(txt) 내용 읽기
     if os.path.exists(txt_path):
         with open(txt_path, encoding='utf-8') as f:
@@ -21,7 +31,7 @@ for md in md_files:
         summary_html = "(요약 없음)"
 
     md_link = f'<a href="{md_path}">{md}</a>'
-    rows.append(f"<tr><td>{summary_html}</td><td>{md_link}</td></tr>")
+    rows.append(f"<tr><td>{summary_html}</td><td>{md_link}</td><td>{date_str}</td></tr>")
 
 html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -43,7 +53,7 @@ html = f"""<!DOCTYPE html>
   max-width: 420px;
   min-width: 120px;
   word-break: break-all;
-  user-select: text;  /* 드래그 가능 */
+  user-select: text;
 }}
 .summary-cell {{
   cursor: pointer;
@@ -58,6 +68,7 @@ html = f"""<!DOCTYPE html>
 <tr>
     <th>요약</th>
     <th>원본(markdown)</th>
+    <th>날짜</th>
 </tr>
 </thead>
 <tbody>
@@ -65,14 +76,11 @@ html = f"""<!DOCTYPE html>
 </tbody>
 </table>
 
-<!-- 툴팁 박스 -->
 <div id="tooltip" class="tooltip-box"></div>
-
 <script>
 const tooltip = document.getElementById('tooltip');
 let tooltipTimeout = null;
 
-// 마우스 오버한 summary-cell과 연동
 document.querySelectorAll('.summary-cell').forEach(cell => {{
   cell.addEventListener('mouseenter', function(e) {{
     tooltip.textContent = cell.getAttribute('data-summary');
@@ -84,7 +92,6 @@ document.querySelectorAll('.summary-cell').forEach(cell => {{
   }});
   cell.addEventListener('mouseleave', function(e) {{
     tooltipTimeout = setTimeout(() => {{
-      // 툴팁 위에 없으면 숨김
       if (!tooltip.matches(':hover')) {{
         tooltip.style.display = 'none';
         tooltip.removeAttribute('data-active');
@@ -93,7 +100,6 @@ document.querySelectorAll('.summary-cell').forEach(cell => {{
   }});
 }});
 
-// 툴팁 박스에 마우스 올라가면 계속 보이기, 드래그/복사 완전 가능!
 tooltip.addEventListener('mouseenter', function(e) {{
   if (tooltipTimeout) {{
     clearTimeout(tooltipTimeout);
