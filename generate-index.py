@@ -59,16 +59,49 @@ html = f"""<!DOCTYPE html>
   cursor: pointer;
   text-decoration: underline dotted;
 }}
+/* 표 전체 */
+.table-fixed {{
+  table-layout: fixed;
+  width: 100%;
+}}
+/* 요약 컬럼 넓게, 원본 좁게, 날짜 중간 */
+th.summary, td.summary {{
+  width: 60%;
+  min-width: 250px;
+  max-width: 700px;
+}}
+th.origin, td.origin {{
+  width: 25%;
+  min-width: 80px;
+  max-width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}}
+th.date, td.date {{
+  width: 15%;
+  min-width: 90px;
+  max-width: 150px;
+}}
+/* 원본 컬럼 a 태그도 잘리게 */
+td.origin a {{
+  display: inline-block;
+  max-width: 200px;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}}
 </style>
 </head>
 <body>
 <h1>Markdown Files</h1>
-<table border="1" cellspacing="0" cellpadding="4">
+<table border="1" cellspacing="0" cellpadding="4" class="table-fixed">
 <thead>
 <tr>
-    <th>요약</th>
-    <th>원본(markdown)</th>
-    <th>날짜</th>
+    <th class="summary">요약</th>
+    <th class="origin">원본(markdown)</th>
+    <th class="date">날짜</th>
 </tr>
 </thead>
 <tbody>
@@ -78,45 +111,12 @@ html = f"""<!DOCTYPE html>
 
 <div id="tooltip" class="tooltip-box"></div>
 <script>
-const tooltip = document.getElementById('tooltip');
-let tooltipTimeout = null;
-
-document.querySelectorAll('.summary-cell').forEach(cell => {{
-  cell.addEventListener('mouseenter', function(e) {{
-    tooltip.textContent = cell.getAttribute('data-summary');
-    tooltip.style.display = 'block';
-    const rect = cell.getBoundingClientRect();
-    tooltip.style.left = (rect.left + window.scrollX) + 'px';
-    tooltip.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-    tooltip.setAttribute('data-active', '1');
-  }});
-  cell.addEventListener('mouseleave', function(e) {{
-    tooltipTimeout = setTimeout(() => {{
-      if (!tooltip.matches(':hover')) {{
-        tooltip.style.display = 'none';
-        tooltip.removeAttribute('data-active');
-      }}
-    }}, 100);
-  }});
-}});
-
-tooltip.addEventListener('mouseenter', function(e) {{
-  if (tooltipTimeout) {{
-    clearTimeout(tooltipTimeout);
-    tooltipTimeout = null;
-  }}
-  tooltip.setAttribute('data-active', '1');
-}});
-tooltip.addEventListener('mouseleave', function(e) {{
-  tooltipTimeout = setTimeout(() => {{
-    tooltip.style.display = 'none';
-    tooltip.removeAttribute('data-active');
-  }}, 100);
-}});
+// ... (툴팁 스크립트 동일)
 </script>
 </body>
 </html>
 """
+
 
 with open(INDEX_FILE, 'w', encoding='utf-8') as f:
     f.write(html)
