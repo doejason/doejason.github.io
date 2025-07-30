@@ -231,24 +231,28 @@ td.origin a {{
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 50vw;
-  height: 50vh;
+  width: calc(50vw - 48px);
+  height: calc(50vh - 30px);
   background: transparent;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 42px 0 0 46px;
+  padding: 54px 0 0 54px;
   user-select: none;
   pointer-events: auto;
   z-index: 10;
   overflow-y: auto;
+  box-sizing: border-box;
 }}
 .blog-title {{
   font-size: 22px;
   color: #368748;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 14px;
+  margin-top: 6px;
+  padding-left: 2px;
+  background: transparent;
 }}
 .table-fixed a {{
   color: #2571cb;
