@@ -67,7 +67,7 @@ html = f"""<!DOCTYPE html>
 body {{
   margin: 0;
   padding: 0;
-  background: #fcfcfc;
+  background: transparent;  /* 투명 */
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
   font-size: 13px;
 }}
@@ -80,15 +80,14 @@ body {{
   height: 50vh;
   display: flex;
   z-index: 10;
+  background: transparent;  /* 투명 */
 }}
 
 /* 섹터 박스 - 왼쪽 */
 .sector-label-box {{
   width: 50vw;
   height: 100%;
-  background: #fff;
-  /* border-radius: 0 0 0 38px; */
-  border-radius: 0;
+  background: transparent;  /* 투명 */
   box-shadow: 0 2px 14px rgba(0,0,0,0.04);
   display: flex;
   align-items: flex-start;
@@ -104,10 +103,8 @@ body {{
 .main-table-wrapper {{
   width: 50vw;
   height: 100%;
-  background: #fff;
+  background: transparent;  /* 투명 */
   box-shadow: 0 6px 24px rgba(0,0,0,0.08);
-  /* border-radius: 0 0 20px 0; */
-  border-radius: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -117,16 +114,19 @@ h1 {{
   margin: 16px 0 8px 0;
   font-size: 1.05em;
   padding-left: 24px;
+  background: transparent;  /* 투명 */
 }}
 .table-fixed {{
   table-layout: fixed;
   width: 100%;
   font-size: 13px;
   border-collapse: collapse;
+  background: transparent;  /* 투명 */
 }}
 th, td {{
   font-size: 13px;
   padding: 6px 10px;
+  background: transparent;  /* 투명 */
 }}
 th.summary, td.summary {{
   width: 58%;
@@ -154,29 +154,35 @@ td.origin a {{
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 13px;
+  background: transparent;  /* 투명 */
 }}
 .summary-cell {{
   display: block;
   white-space: normal;
   line-height: 1.4;
+  background: transparent;  /* 투명 */
 }}
 .hashtag {{
   color: #1e6aff;
   font-weight: bold;
   font-size: 13px;
+  background: transparent;  /* 투명 */
 }}
 .hashtag-line {{
   margin-bottom: 3px;
   font-size: 13px;
+  background: transparent;  /* 투명 */
 }}
 .body-line {{
   color: #222;
   font-size: 13px;
   margin-bottom: 2px;
+  background: transparent;  /* 투명 */
 }}
 .table-scroll-body {{
   overflow-y: auto;
   height: calc(50vh - 54px);
+  background: transparent;  /* 투명 */
 }}
 </style>
 </head>
@@ -204,7 +210,6 @@ td.origin a {{
 </body>
 </html>
 """
-
 
 with open(INDEX_FILE, 'w', encoding='utf-8') as f:
     f.write(html)
