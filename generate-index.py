@@ -208,7 +208,7 @@ body {{
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
   font-size: 13px;
 }}
-/* 1사분면 "섹터" */
+/* 1사분면 "섹터" !! */
 .sector-label {{
   position: fixed;
   left: 0;
