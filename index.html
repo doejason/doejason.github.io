@@ -11,6 +11,26 @@ body {
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
   font-size: 13px;
 }
+/* 4분면 구분선 */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  z-index: 100;
+  background: #e4e4e4;
+  pointer-events: none;
+}
+body::before {
+  left: 0; right: 0;
+  top: 50vh;
+  height: 1.5px;
+  width: 100vw;
+}
+body::after {
+  top: 0; bottom: 0;
+  left: 50vw;
+  width: 1.5px;
+  height: 100vh;
+}
 .row-wrapper {
   position: fixed;
   left: 0;
@@ -200,7 +220,7 @@ iM 금융지주는 2분기 연결 지배순이익이 전년 대비 305.1% 증가
     </tr>
   </thead>
   <tbody>
-    <tr><td class='summary'><a href="https://blog.naver.com/ranto28/223951301937" target="_blank">삼성전자 근황 3 (feat 평택캠퍼스, 텍사스, 테슬라 수주)</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-07-30</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223951258353" target="_blank">삼성전자 근황 2 (feat TSMC, 3나노 수율, 평택 )</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-07-29</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223947898476" target="_blank">조선업 근황 업데이트 (feat MRO, 군산항, HD현대중공업)</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-07-28</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223938662740" target="_blank">이스라엘이 시리아 수도를 폭격하는 비밀 2(feat 하레디)</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-07-19</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223938411525" target="_blank">이스라엘이 시리아 수도를 폭격하는 비밀 1 (feat 드루즈족)</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-07-19</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223937327745" target="_blank">중국과 충돌하고 있는 필리핀 근황 2 (feat 마르코스 vs... </a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-07-18</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223937280433" target="_blank">중국과 충돌하고 있는 필리핀 근황 1 (feat 미군 철수, 워게임)</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-07-18</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223901226240" target="_blank">늦생시(늦었다고 생각할 때 시작일 경우가 많다) 6(feat 풍산)</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-06-17</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223833521022" target="_blank">이웃 24만명 블로그의 블로그 순위는?</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-04-20</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223822128987" target="_blank">특이한 부산 식당들</a></td><td class='origin'>메르의 블로그</td><td class='date'>2025-04-05</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223690399650" target="_blank">[2024 마이 <b>블로그</b> 리포트] 데이터로 찾아보는 내 <b>블로그</b> 마을</a></td><td class='origin'>메르의 블로그</td><td class='date'>2024-12-11</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223675485727" target="_blank">주절주절…<b>메르의 블로그</b> 어플로 읽기</a></td><td class='origin'>메르의 블로그</td><td class='date'>2024-11-28</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223592200966" target="_blank"><b>블로그</b> 못하는 사람들 특징?</a></td><td class='origin'>메르의 블로그</td><td class='date'>2024-09-23</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223571629911" target="_blank"><b>메르의 블로그</b> 뜯어보기</a></td><td class='origin'>메르의 블로그</td><td class='date'>2024-09-08</td></tr><tr><td class='summary'><a href="https://blog.naver.com/ranto28/223459020581" target="_blank">주절주절..온라인 활동..유료활동..<b>블로그</b>..댓글..백문백답..</a></td><td class='origin'>메르의 블로그</td><td class='date'>2024-05-26</td></tr>
+    <tr><td class='summary'><a href="https://blog.naver.com/abbloodman/222960424244" target="_blank">중국 양적완화 시작 - 디지털 위안화 &amp; 메타버스 부양</a></td><td class='origin'>AB형남자의 투자 이야기</td><td class='date'>2022-12-19</td></tr>
   </tbody>
 </table>
 
