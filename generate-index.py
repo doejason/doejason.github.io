@@ -50,14 +50,14 @@ for md in os.listdir(POSTS_DIR):
 # 날짜 내림차순
 data_sorted = sorted(data, key=lambda x: x[0], reverse=True)
 
-rows = [
+tbody_html = ''.join([
     f"<tr>"
     f"<td class='summary'>{summary_html}</td>"
     f"<td class='origin'>{md_link}</td>"
     f"<td class='date'>{date_str}</td>"
     f"</tr>"
     for (_, summary_html, md_link, date_str) in data_sorted
-]
+])
 
 html = f"""<!DOCTYPE html>
 <html lang="ko">
@@ -70,7 +70,8 @@ body {{
   padding: 0;
   background: #f9fafd;
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
-  font-size: 13.5px;
+  font-size: 14px;
+  color: #212326;
 }}
 h1 {{
   font-size: 1.13em;
@@ -81,31 +82,45 @@ h1 {{
 .hashtag {{
   color: #1976d2;
   font-weight: bold;
-  font-size: 12.5px;
+  font-size: 13px;
 }}
 .hashtag-line {{
   margin-bottom: 2.5px;
-  font-size: 12.5px;
+  font-size: 13px;
 }}
 .body-line {{
   color: #222;
   margin-bottom: 1px;
-  font-size: 13.5px;
+  font-size: 14px;
 }}
 .table-fixed {{
   table-layout: fixed;
   width: 96vw;
   margin: 0 auto;
-  font-size: 13.5px;
+  font-size: 14px;
   border-collapse: collapse;
   background: #fff;
-  border: 1px solid #d5d6db;
+  border: 1px solid #e9e9ef;
+  border-radius: 13px;
+  box-shadow: 0 4px 20px 0 #f6f8fa;
+  overflow: hidden;
 }}
 th, td {{
-  font-size: 13.5px;
+  font-size: 14px;
   padding: 5px 8px;
   background: #fff;
-  border: 1px solid #d6d7dc;
+  border: 1px solid #ececec;
+}}
+th {{
+  background: #f4f5f8;
+  color: #2a3349;
+  font-weight: 600;
+}}
+tr:nth-child(even) {{
+  background: #f9fafc;
+}}
+tr:hover {{
+  background: #f1f4fa;
 }}
 th.summary, td.summary {{
   width: 60%;
@@ -134,18 +149,51 @@ td.origin a {{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 13.5px;
+  font-size: 14px;
 }}
 .summary-cell {{
   display: block;
   white-space: normal;
   line-height: 1.37;
 }}
+.pagination {{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin: 22px 0 30px 0;
+  font-size: 15px;
+}}
+.pagination button {{
+  background: #fff;
+  border: 1px solid #dedede;
+  color: #3678ff;
+  font-weight: 600;
+  padding: 4px 12px;
+  margin: 0 1.5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border 0.12s;
+  min-width: 28px;
+  outline: none;
+}}
+.pagination button.active,
+.pagination button:active {{
+  background: #3678ff;
+  color: #fff;
+  border: 1.2px solid #3678ff;
+}}
+.pagination button:disabled {{
+  background: #fafbfc;
+  color: #bbb;
+  border: 1px solid #e4e4e4;
+  cursor: not-allowed;
+}}
 </style>
 </head>
 <body>
 <h1>AI 마크다운 요약 목록</h1>
-<table border="1" cellspacing="0" cellpadding="4" class="table-fixed">
+<table border="1" cellspacing="0" cellpadding="4" class="table-fixed" id="main-table">
 <thead>
 <tr>
     <th class="summary">요약</th>
@@ -153,10 +201,83 @@ td.origin a {{
     <th class="date">날짜</th>
 </tr>
 </thead>
-<tbody>
-{''.join(rows)}
+<tbody id="table-body">
+{tbody_html}
 </tbody>
 </table>
+<div class="pagination" id="pagination"></div>
+<script>
+const rowsPerPage = 100;
+const tableBody = document.getElementById('table-body');
+const pagination = document.getElementById('pagination');
+
+const allRows = Array.from(tableBody.querySelectorAll('tr'));
+const totalRows = allRows.length;
+const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+function renderPage(page) {{
+    tableBody.innerHTML = '';
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    for (let i = start; i < end && i < totalRows; i++) {{
+        tableBody.appendChild(allRows[i]);
+    }}
+
+    pagination.innerHTML = '';
+    if (totalPages > 1) {{
+        const btnPrev = document.createElement('button');
+        btnPrev.textContent = '<';
+        btnPrev.disabled = (page === 1);
+        btnPrev.onclick = () => renderPage(page - 1);
+        pagination.appendChild(btnPrev);
+
+        // 최대 7개 페이지 버튼 (ex: ... 4 5 6 7 8 9 10 ...)
+        let startPage = Math.max(1, page - 3);
+        let endPage = Math.min(totalPages, page + 3);
+
+        if (startPage > 1) {{
+            let btn1 = document.createElement('button');
+            btn1.textContent = '1';
+            btn1.onclick = () => renderPage(1);
+            pagination.appendChild(btn1);
+            if (startPage > 2) {{
+                let dots = document.createElement('span');
+                dots.textContent = '...';
+                dots.style.padding = '0 6px';
+                dots.style.color = '#aaa';
+                pagination.appendChild(dots);
+            }}
+        }}
+        for (let p = startPage; p <= endPage; p++) {{
+            let btn = document.createElement('button');
+            btn.textContent = p;
+            if (p === page) btn.classList.add('active');
+            btn.onclick = () => renderPage(p);
+            pagination.appendChild(btn);
+        }}
+        if (endPage < totalPages) {{
+            if (endPage < totalPages - 1) {{
+                let dots = document.createElement('span');
+                dots.textContent = '...';
+                dots.style.padding = '0 6px';
+                dots.style.color = '#aaa';
+                pagination.appendChild(dots);
+            }}
+            let btnLast = document.createElement('button');
+            btnLast.textContent = totalPages;
+            btnLast.onclick = () => renderPage(totalPages);
+            pagination.appendChild(btnLast);
+        }}
+
+        const btnNext = document.createElement('button');
+        btnNext.textContent = '>';
+        btnNext.disabled = (page === totalPages);
+        btnNext.onclick = () => renderPage(page + 1);
+        pagination.appendChild(btnNext);
+    }}
+}}
+renderPage(1);
+</script>
 </body>
 </html>
 """
