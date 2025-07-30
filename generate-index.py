@@ -60,45 +60,71 @@ rows = [
 ]
 
 html = f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>Markdown List</title>
+<title>AI 마크다운 요약 테이블</title>
 <style>
+body {{
+  margin: 0;
+  padding: 0;
+  background: #f9fafd;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
+  font-size: 12px;
+}}
+h1 {{
+  font-size: 1.05em;
+  margin: 22px 0 12px 18px;
+  color: #254;
+  letter-spacing: 0.01em;
+}}
 .hashtag {{
-  color: #1e6aff;
+  color: #1976d2;
   font-weight: bold;
+  font-size: 11.5px;
 }}
 .hashtag-line {{
-  margin-bottom: 4px;
+  margin-bottom: 2.5px;
+  font-size: 11.5px;
 }}
 .body-line {{
   color: #222;
-  margin-bottom: 2px;
-  font-size: 15px;
+  margin-bottom: 1px;
+  font-size: 12px;
 }}
 .table-fixed {{
   table-layout: fixed;
-  width: 100%;
+  width: 96vw;
+  margin: 0 auto;
+  font-size: 12px;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #d5d6db;
+}}
+th, td {{
+  font-size: 12px;
+  padding: 5px 8px;
+  background: #fff;
+  border: 1px solid #d6d7dc;
 }}
 th.summary, td.summary {{
   width: 60%;
-  min-width: 250px;
-  max-width: 700px;
+  min-width: 140px;
+  max-width: 540px;
   vertical-align: top;
 }}
 th.origin, td.origin {{
-  width: 16%;
-  min-width: 55px;
-  max-width: 120px;
+  width: 18%;
+  min-width: 50px;
+  max-width: 95px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }}
 th.date, td.date {{
-  width: 24%;
-  min-width: 90px;
-  max-width: 150px;
+  width: 22%;
+  min-width: 80px;
+  max-width: 120px;
 }}
 td.origin a {{
   display: inline-block;
@@ -106,21 +132,22 @@ td.origin a {{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 12px;
 }}
 .summary-cell {{
   display: block;
   white-space: normal;
-  line-height: 1.6;
+  line-height: 1.35;
 }}
 </style>
 </head>
 <body>
-<h1>Markdown Files</h1>
+<h1>AI 마크다운 요약 목록</h1>
 <table border="1" cellspacing="0" cellpadding="4" class="table-fixed">
 <thead>
 <tr>
     <th class="summary">요약</th>
-    <th class="origin">원본(markdown)</th>
+    <th class="origin">원본</th>
     <th class="date">날짜</th>
 </tr>
 </thead>
