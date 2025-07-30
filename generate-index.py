@@ -98,6 +98,26 @@ body {{
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
   font-size: 13px;
 }}
+/* 4분면 구분선 */
+body::before, body::after {{
+  content: "";
+  position: fixed;
+  z-index: 100;
+  background: #e4e4e4;
+  pointer-events: none;
+}}
+body::before {{
+  left: 0; right: 0;
+  top: 50vh;
+  height: 1.5px;
+  width: 100vw;
+}}
+body::after {{
+  top: 0; bottom: 0;
+  left: 50vw;
+  width: 1.5px;
+  height: 100vh;
+}}
 .row-wrapper {{
   position: fixed;
   left: 0;
