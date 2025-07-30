@@ -208,7 +208,7 @@ td.origin a {{
 </table>
 <div class="pagination" id="pagination"></div>
 <script>
-const rowsPerPage = 100;
+const rowsPerPage = 20;
 const tableBody = document.getElementById('table-body');
 const pagination = document.getElementById('pagination');
 const anchor = document.getElementById('scroll-top-anchor');
