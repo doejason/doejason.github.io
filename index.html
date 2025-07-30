@@ -22,22 +22,22 @@ body {
   z-index: 10;
   background: transparent;
 }
-/* 1사분면 - 섹터 */
+/* 1사분면 - 섹터 (왼쪽 위) */
 .sector-label-box {
   width: 50vw;
   height: 100%;
   background: transparent;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-start;      /* 위쪽 정렬 */
   justify-content: flex-start;
   font-size: 26px;
   font-weight: 600;
   color: #2b3687;
-  padding: 44px 0 0 46px;
+  padding: 42px 0 0 46px;
   user-select: none;
   pointer-events: none;
 }
-/* 2사분면 - 표 */
+/* 2사분면 - 표 (오른쪽 위) */
 .main-table-wrapper {
   width: 50vw;
   height: 100%;
@@ -123,7 +123,7 @@ td.origin a {
   background: transparent;
 }
 
-/* 3사분면 VC - 왼쪽 아래 고정 */
+/* 3사분면 - VC (왼쪽 아래) */
 .vc-label-box {
   position: fixed;
   left: 0;
@@ -132,12 +132,12 @@ td.origin a {
   height: 50vh;
   background: transparent;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;    /* 위쪽 정렬 */
   justify-content: flex-start;
   font-size: 26px;
   font-weight: 600;
   color: #368748;
-  padding: 0 0 42px 46px;
+  padding: 42px 0 0 46px;
   user-select: none;
   pointer-events: none;
   z-index: 10;
