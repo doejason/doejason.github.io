@@ -192,6 +192,7 @@ td.origin a {{
 </style>
 </head>
 <body>
+<div id="scroll-top-anchor"></div>
 <h1>AI 마크다운 요약 목록</h1>
 <table border="1" cellspacing="0" cellpadding="4" class="table-fixed" id="main-table">
 <thead>
@@ -207,9 +208,10 @@ td.origin a {{
 </table>
 <div class="pagination" id="pagination"></div>
 <script>
-const rowsPerPage = 20;
+const rowsPerPage = 100;
 const tableBody = document.getElementById('table-body');
 const pagination = document.getElementById('pagination');
+const anchor = document.getElementById('scroll-top-anchor');
 
 const allRows = Array.from(tableBody.querySelectorAll('tr'));
 const totalRows = allRows.length;
@@ -275,6 +277,10 @@ function renderPage(page) {{
         btnNext.onclick = () => renderPage(page + 1);
         pagination.appendChild(btnNext);
     }}
+
+    // 페이지 이동 시 스크롤 맨 위로
+    // (h1보다 위쪽에 scroll-top-anchor를 두면 h1도 안가려짐)
+    anchor.scrollIntoView({{ behavior: "smooth" }});
 }}
 renderPage(1);
 </script>
