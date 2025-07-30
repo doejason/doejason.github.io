@@ -70,10 +70,10 @@ body {{
   padding: 0;
   background: #f9fafd;
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
-  font-size: 12px;
+  font-size: 13.5px;
 }}
 h1 {{
-  font-size: 1.05em;
+  font-size: 1.13em;
   margin: 22px 0 12px 18px;
   color: #254;
   letter-spacing: 0.01em;
@@ -81,28 +81,28 @@ h1 {{
 .hashtag {{
   color: #1976d2;
   font-weight: bold;
-  font-size: 11.5px;
+  font-size: 12.5px;
 }}
 .hashtag-line {{
   margin-bottom: 2.5px;
-  font-size: 11.5px;
+  font-size: 12.5px;
 }}
 .body-line {{
   color: #222;
   margin-bottom: 1px;
-  font-size: 12px;
+  font-size: 13.5px;
 }}
 .table-fixed {{
   table-layout: fixed;
   width: 96vw;
   margin: 0 auto;
-  font-size: 12px;
+  font-size: 13.5px;
   border-collapse: collapse;
   background: #fff;
   border: 1px solid #d5d6db;
 }}
 th, td {{
-  font-size: 12px;
+  font-size: 13.5px;
   padding: 5px 8px;
   background: #fff;
   border: 1px solid #d6d7dc;
@@ -122,9 +122,11 @@ th.origin, td.origin {{
   text-overflow: ellipsis;
 }}
 th.date, td.date {{
-  width: 22%;
-  min-width: 80px;
-  max-width: 120px;
+  width: 11%;
+  min-width: 67px;
+  max-width: 74px;
+  text-align: center;
+  letter-spacing: -0.5px;
 }}
 td.origin a {{
   display: inline-block;
@@ -132,12 +134,12 @@ td.origin a {{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 12px;
+  font-size: 13.5px;
 }}
 .summary-cell {{
   display: block;
   white-space: normal;
-  line-height: 1.35;
+  line-height: 1.37;
 }}
 </style>
 </head>
