@@ -9,8 +9,29 @@ body {
   padding: 0;
   background: #fcfcfc;
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
-  font-size: 13px;  /* 전체 글씨 크기 축소 */
+  font-size: 13px;
 }
+/* 1사분면 "섹터" !! */
+.sector-label {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 50vw;
+  height: 50vh;
+  background: #fff;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 26px;
+  font-weight: 600;
+  color: #2b3687;
+  padding: 44px 0 0 46px;
+  z-index: 11;
+  border-radius: 0 0 38px 0;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.04);
+  pointer-events: none; /* 클릭 방지 */
+}
+/* 2사분면(오른쪽 위) 표 */
 .main-table-wrapper {
   position: fixed;
   right: 0;
@@ -24,6 +45,7 @@ body {
   display: flex;
   flex-direction: column;
   border: 1.5px solid #e0e0e0;
+  z-index: 10;
 }
 h1 {
   margin: 16px 0 8px 0;
@@ -86,14 +108,14 @@ td.origin a {
   font-size: 13px;
   margin-bottom: 2px;
 }
-/* 표 내 세로 스크롤 (헤더 고정 아님, 전체 스크롤) */
 .table-scroll-body {
   overflow-y: auto;
-  height: calc(50vh - 54px); /* 상단 h1/padding 고려해서 약간 뺌 */
+  height: calc(50vh - 54px);
 }
 </style>
 </head>
 <body>
+<div class="sector-label">섹터</div>
 <div class="main-table-wrapper">
   <h1>Markdown Files</h1>
   <div class="table-scroll-body">
