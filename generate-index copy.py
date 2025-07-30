@@ -1,25 +1,33 @@
-import json
 import os
 import re
 
-# 1. Markdown 파일 표 rows 만들기 (2사분면)
 POSTS_DIR = 'posts'
-rows = []
+INDEX_FILE = 'index.html'
+
+def color_hashtags(text):
+    return re.sub(r'(#[\w가-힣]+)', r'<span class="hashtag">\1</span>', text)
+
+data = []
 for md in os.listdir(POSTS_DIR):
     if not md.endswith('.md'):
         continue
     md_path = os.path.join(POSTS_DIR, md)
     txt_name = os.path.splitext(md)[0] + '.txt'
     txt_path = os.path.join(POSTS_DIR, txt_name)
-    # 날짜
+
+    # 날짜 추출
     date_match = re.search(r'photo_(\d{8})', md)
     if date_match:
         raw_date = date_match.group(1)
-        date_str = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:]}"
+        date_sort_key = raw_date
+        date_str = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
     else:
+        date_sort_key = "00000000"
         date_str = "(날짜없음)"
+
     origin_name = re.sub(r'^photo_\d{8}_Preview_page_\d+_of_', '', md)
-    # 요약
+
+    # 요약(txt) 파일 분리 처리
     if os.path.exists(txt_path):
         with open(txt_path, encoding='utf-8') as f:
             summary = f.read().strip()
@@ -28,63 +36,28 @@ for md in os.listdir(POSTS_DIR):
             keyword_line, body_line = lines[0], lines[1]
         else:
             keyword_line, body_line = lines[0], ""
-        # 해시태그 파랑
-        keyword_html = re.sub(r'(#[\w가-힣]+)', r'<span class="hashtag">\1</span>', keyword_line.strip())
+        keyword_html = f'<div class="hashtag-line">{color_hashtags(keyword_line.strip())}</div>'
         body_html = f'<div class="body-line">{body_line.strip()}</div>' if body_line.strip() else ""
-        summary_html = f'<span class="summary-cell"><div class="hashtag-line">{keyword_html}</div>{body_html}</span>'
+        summary_html = f'<span class="summary-cell">{keyword_html}{body_html}</span>'
     else:
         summary_html = "(요약 없음)"
+
     md_link = f'<a href="{os.path.join(POSTS_DIR, md)}" title="{md}">{origin_name}</a>'
-    rows.append(
-        f"<tr>"
-        f"<td class='summary'>{summary_html}</td>"
-        f"<td class='origin'>{md_link}</td>"
-        f"<td class='date'>{date_str}</td>"
-        f"</tr>"
-    )
 
-# 2. blog_posts.json을 VC 표로 변환 (3사분면)
-with open('blog_posts.json', encoding='utf-8') as jf:
-    blog_posts = json.load(jf)
+    data.append((date_sort_key, summary_html, md_link, date_str))
 
-vc_rows = []
-for post in blog_posts:
-    # 날짜 예쁘게
-    postdate = post.get('postdate', '')
-    if len(postdate) == 8:
-        date_str = f"{postdate[:4]}-{postdate[4:6]}-{postdate[6:]}"
-    else:
-        date_str = postdate
-    title = post.get('title', '')
-    link = post.get('link', '')
-    blogger = post.get('bloggername', '')
-    # 블로그 링크
-    title_html = f'<a href="{link}" target="_blank">{title}</a>'
-    vc_rows.append(
-        f"<tr>"
-        f"<td class='vc-title'>{title_html}</td>"
-        f"<td class='vc-date'>{date_str}</td>"
-        f"<td class='vc-blogger'>{blogger}</td>"
-        f"</tr>"
-    )
+# 날짜 내림차순
+data_sorted = sorted(data, key=lambda x: x[0], reverse=True)
 
-vc_table = f"""
-<div class="vc-title" style="font-size:24px; font-weight:600; color:#368748; margin-bottom:20px;">VC</div>
-<table class="vc-table">
-  <thead>
-    <tr>
-      <th>제목</th>
-      <th>날짜</th>
-      <th>블로거</th>
-    </tr>
-  </thead>
-  <tbody>
-    {''.join(vc_rows)}
-  </tbody>
-</table>
-"""
+rows = [
+    f"<tr>"
+    f"<td class='summary'>{summary_html}</td>"
+    f"<td class='origin'>{md_link}</td>"
+    f"<td class='date'>{date_str}</td>"
+    f"</tr>"
+    for (_, summary_html, md_link, date_str) in data_sorted
+]
 
-# 3. 전체 HTML 출력
 html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -219,43 +192,15 @@ td.origin a {{
   height: 50vh;
   background: transparent;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-start;    /* 위쪽 정렬 */
   justify-content: flex-start;
+  font-size: 26px;
+  font-weight: 600;
+  color: #368748;
   padding: 42px 0 0 46px;
   user-select: none;
-  pointer-events: auto;
+  pointer-events: none;
   z-index: 10;
-  overflow-y: auto;
-}}
-.vc-table {{
-  width: 95%;
-  border-collapse: collapse;
-  font-size: 13px;
-  margin-top: 6px;
-  background: transparent;
-}}
-.vc-table th, .vc-table td {{
-  border: 1px solid #b6b7be;
-  padding: 4px 7px;
-  background: transparent;
-  color: #222;
-  user-select: text;
-}}
-.vc-table th {{
-  color: #368748;
-  font-weight: 600;
-  background: transparent;
-}}
-.vc-title {{
-  font-size: 22px;
-  color: #368748;
-  font-weight: bold;
-  margin-bottom: 5px;
-}}
-.vc-table a {{
-  color: #2571cb;
-  text-decoration: underline dotted;
 }}
 </style>
 </head>
@@ -280,12 +225,11 @@ td.origin a {{
     </div>
   </div>
 </div>
-<div class="vc-label-box">
-  {vc_table}
-</div>
+<div class="vc-label-box">VC</div>
 </body>
 </html>
 """
 
-with open('index.html', 'w', encoding='utf-8') as f:
+
+with open(INDEX_FILE, 'w', encoding='utf-8') as f:
     f.write(html)
