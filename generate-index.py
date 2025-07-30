@@ -43,11 +43,11 @@ for md in os.listdir(POSTS_DIR):
         f"</tr>"
     )
 
-# 2. blog_posts.json을 VC 표로 변환 (3사분면)
+# 2. 네이버 블로그 표 rows 만들기 (3사분면)
 with open('blog_posts.json', encoding='utf-8') as jf:
     blog_posts = json.load(jf)
 
-vc_rows = []
+naver_rows = []
 for post in blog_posts:
     # 날짜 예쁘게
     postdate = post.get('postdate', '')
@@ -60,26 +60,26 @@ for post in blog_posts:
     blogger = post.get('bloggername', '')
     # 블로그 링크
     title_html = f'<a href="{link}" target="_blank">{title}</a>'
-    vc_rows.append(
+    naver_rows.append(
         f"<tr>"
-        f"<td class='vc-title'>{title_html}</td>"
-        f"<td class='vc-date'>{date_str}</td>"
-        f"<td class='vc-blogger'>{blogger}</td>"
+        f"<td class='summary'>{title_html}</td>"
+        f"<td class='origin'>{blogger}</td>"
+        f"<td class='date'>{date_str}</td>"
         f"</tr>"
     )
 
-vc_table = f"""
-<div class="vc-title" style="font-size:24px; font-weight:600; color:#368748; margin-bottom:20px;">VC</div>
-<table class="vc-table">
+naver_table = f"""
+<div class="blog-title" style="font-size:24px; font-weight:600; color:#368748; margin-bottom:20px;">네이버 블로그</div>
+<table class="table-fixed">
   <thead>
     <tr>
-      <th>제목</th>
-      <th>날짜</th>
-      <th>블로거</th>
+      <th class="summary">제목</th>
+      <th class="origin">블로거</th>
+      <th class="date">날짜</th>
     </tr>
   </thead>
   <tbody>
-    {''.join(vc_rows)}
+    {''.join(naver_rows)}
   </tbody>
 </table>
 """
@@ -98,7 +98,6 @@ body {{
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
   font-size: 13px;
 }}
-/* 상단 2사분면(섹터+표) 전체 wrapper */
 .row-wrapper {{
   position: fixed;
   left: 0;
@@ -109,13 +108,12 @@ body {{
   z-index: 10;
   background: transparent;
 }}
-/* 1사분면 - 섹터 (왼쪽 위) */
 .sector-label-box {{
   width: 50vw;
   height: 100%;
   background: transparent;
   display: flex;
-  align-items: flex-start;      /* 위쪽 정렬 */
+  align-items: flex-start;
   justify-content: flex-start;
   font-size: 26px;
   font-weight: 600;
@@ -124,7 +122,6 @@ body {{
   user-select: none;
   pointer-events: none;
 }}
-/* 2사분면 - 표 (오른쪽 위) */
 .main-table-wrapper {{
   width: 50vw;
   height: 100%;
@@ -209,9 +206,8 @@ td.origin a {{
   height: calc(50vh - 54px);
   background: transparent;
 }}
-
-/* 3사분면 - VC (왼쪽 아래) */
-.vc-label-box {{
+/* 3사분면 - 네이버 블로그 (왼쪽 아래) */
+.blog-label-box {{
   position: fixed;
   left: 0;
   bottom: 0;
@@ -228,32 +224,13 @@ td.origin a {{
   z-index: 10;
   overflow-y: auto;
 }}
-.vc-table {{
-  width: 95%;
-  border-collapse: collapse;
-  font-size: 13px;
-  margin-top: 6px;
-  background: transparent;
-}}
-.vc-table th, .vc-table td {{
-  border: 1px solid #b6b7be;
-  padding: 4px 7px;
-  background: transparent;
-  color: #222;
-  user-select: text;
-}}
-.vc-table th {{
-  color: #368748;
-  font-weight: 600;
-  background: transparent;
-}}
-.vc-title {{
+.blog-title {{
   font-size: 22px;
   color: #368748;
   font-weight: bold;
   margin-bottom: 5px;
 }}
-.vc-table a {{
+.table-fixed a {{
   color: #2571cb;
   text-decoration: underline dotted;
 }}
@@ -280,8 +257,8 @@ td.origin a {{
     </div>
   </div>
 </div>
-<div class="vc-label-box">
-  {vc_table}
+<div class="blog-label-box">
+  {naver_table}
 </div>
 </body>
 </html>
