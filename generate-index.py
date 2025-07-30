@@ -72,7 +72,6 @@ body {{
   font-size: 13px;
 }}
 
-/* 상단 2사분면 전체 wrapper (섹터+표) */
 .row-wrapper {{
   position: fixed;
   left: 0;
@@ -88,7 +87,8 @@ body {{
   width: 50vw;
   height: 100%;
   background: #fff;
-  border-radius: 0 0 0 38px;
+  /* border-radius: 0 0 0 38px; */
+  border-radius: 0;
   box-shadow: 0 2px 14px rgba(0,0,0,0.04);
   display: flex;
   align-items: flex-start;
@@ -98,7 +98,6 @@ body {{
   color: #2b3687;
   padding: 44px 0 0 46px;
   border-right: 1.5px solid #e0e0e0;
-  /* pointer-events: none;  // 주석처리하면 이 영역 클릭도 됨 */
 }}
 
 /* 표 wrapper - 오른쪽 */
@@ -107,12 +106,12 @@ body {{
   height: 100%;
   background: #fff;
   box-shadow: 0 6px 24px rgba(0,0,0,0.08);
-  border-radius: 0 0 20px 0;
+  /* border-radius: 0 0 20px 0; */
+  border-radius: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   border-left: none;
-  /* 같은 높이, 같은 배경 */
 }}
 h1 {{
   margin: 16px 0 8px 0;
@@ -175,7 +174,6 @@ td.origin a {{
   font-size: 13px;
   margin-bottom: 2px;
 }}
-/* 표 내 세로 스크롤 */
 .table-scroll-body {{
   overflow-y: auto;
   height: calc(50vh - 54px);
@@ -206,6 +204,7 @@ td.origin a {{
 </body>
 </html>
 """
+
 
 with open(INDEX_FILE, 'w', encoding='utf-8') as f:
     f.write(html)
