@@ -83,7 +83,6 @@ body {{
   background: transparent;
 }}
 
-/* 섹터 박스 - 왼쪽 */
 .sector-label-box {{
   width: 50vw;
   height: 100%;
@@ -97,7 +96,6 @@ body {{
   padding: 44px 0 0 46px;
 }}
 
-/* 표 wrapper - 오른쪽 */
 .main-table-wrapper {{
   width: 50vw;
   height: 100%;
@@ -106,24 +104,27 @@ body {{
   display: flex;
   flex-direction: column;
 }}
+
 h1 {{
   margin: 16px 0 8px 0;
   font-size: 1.05em;
   padding-left: 24px;
   background: transparent;
 }}
+
 .table-fixed {{
   table-layout: fixed;
   width: 100%;
   font-size: 13px;
   border-collapse: collapse;
   background: transparent;
+  border: 1.5px solid #d6d7db;
 }}
 th, td {{
   font-size: 13px;
   padding: 6px 10px;
   background: transparent;
-  border: none;
+  border: 1px solid #b6b7be;
 }}
 th.summary, td.summary {{
   width: 58%;
@@ -189,7 +190,7 @@ td.origin a {{
   <div class="main-table-wrapper">
     <h1>Markdown Files</h1>
     <div class="table-scroll-body">
-      <table cellspacing="0" cellpadding="4" class="table-fixed">
+      <table class="table-fixed">
         <thead>
         <tr>
             <th class="summary">요약</th>
