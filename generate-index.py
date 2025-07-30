@@ -71,7 +71,7 @@ body {{
   font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
   font-size: 13px;
 }}
-
+/* 상단 2사분면(섹터+표) 전체 wrapper */
 .row-wrapper {{
   position: fixed;
   left: 0;
@@ -82,7 +82,7 @@ body {{
   z-index: 10;
   background: transparent;
 }}
-
+/* 1사분면 - 섹터 */
 .sector-label-box {{
   width: 50vw;
   height: 100%;
@@ -94,8 +94,10 @@ body {{
   font-weight: 600;
   color: #2b3687;
   padding: 44px 0 0 46px;
+  user-select: none;
+  pointer-events: none;
 }}
-
+/* 2사분면 - 표 */
 .main-table-wrapper {{
   width: 50vw;
   height: 100%;
@@ -104,14 +106,12 @@ body {{
   display: flex;
   flex-direction: column;
 }}
-
 h1 {{
   margin: 16px 0 8px 0;
   font-size: 1.05em;
   padding-left: 24px;
   background: transparent;
 }}
-
 .table-fixed {{
   table-layout: fixed;
   width: 100%;
@@ -182,6 +182,26 @@ td.origin a {{
   height: calc(50vh - 54px);
   background: transparent;
 }}
+
+/* 3사분면 VC - 왼쪽 아래 고정 */
+.vc-label-box {{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 50vw;
+  height: 50vh;
+  background: transparent;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  font-size: 26px;
+  font-weight: 600;
+  color: #368748;
+  padding: 0 0 42px 46px;
+  user-select: none;
+  pointer-events: none;
+  z-index: 10;
+}}
 </style>
 </head>
 <body>
@@ -205,6 +225,7 @@ td.origin a {{
     </div>
   </div>
 </div>
+<div class="vc-label-box">VC</div>
 </body>
 </html>
 """
